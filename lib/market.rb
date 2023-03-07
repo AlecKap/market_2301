@@ -25,9 +25,11 @@ class Market
 
   def sorted_item_list
     list_of_names = @vendors.flat_map do |vendor|
-      vendor.inventory.keys
-    end
-    list_of_names.sort!.uniq
+      vendor.inventory.map do |item,_|
+        item.name
+      end
+    end.uniq
+    list_of_names.sort
   end
 
   def total_inventory
@@ -36,8 +38,8 @@ class Market
       @vendors.each do |vendor|
        
         quant_of_items[item] = {
-          "quantity" => total_quantity(item),
-          "vendors" => vendors_that_sell(item)
+          quantity: total_quantity(item),
+          vendors: vendors_that_sell(item)
         }
       end
     end
