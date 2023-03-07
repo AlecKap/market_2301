@@ -10,11 +10,11 @@ class Vendor
   end
 
   def check_stock(item)
-    @inventory[item.name]
+    @inventory[item]
   end
 
   def stock(item, quantity)
-    @inventory[item.name] += quantity
+    @inventory[item] += quantity
     @potential_revenue += (item.price * quantity)
   end
 end
