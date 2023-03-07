@@ -18,6 +18,10 @@ RSpec.describe Vendor do
     it '#inventory' do
       expect(@vendor.inventory).to eq({})
     end
+
+    it '#potential_revenue' do
+      expect(@vendor.potential_revenue).to eq(0.0)
+    end
   end
 
   describe '#check_stock' do
