@@ -18,7 +18,7 @@ class Market
   def vendors_that_sell(item)
     vendors = []
     @vendors.each do |vendor|
-      vendors << vendor if vendor.inventory.keys.include?(item.name)
+      vendors << vendor if vendor.inventory.keys.include?(item)
     end
     vendors
   end
@@ -31,23 +31,27 @@ class Market
   end
 
   def total_inventory
-    # reports the quantities of all items sold at the market.
-    # return a hash with items as keys and hash as values
-    # sub-hash should have two key/value pairs
-      # quantity pointing to total inventory for that item
-      # vendors pointing to an array of the vendors that sell that item
     quant_of_items = Hash.new
-    sorted_item_list.each do |item|
+    total_items.each do |item|
       @vendors.each do |vendor|
-        # require 'pry-byebug'; require 'pry'; binding.pry
+       
         quant_of_items[item] = {
-          vendor.inventory.values.sum => 0,
-          "Vendors" => []
+          "quantity" => total_quantity(item),
+          "vendors" => vendors_that_sell(item)
         }
       end
     end
     quant_of_items
-    # require 'pry-byebug'; require 'pry'; binding.pry
+  end
+
+  def total_quantity(item)
+    @vendors.sum do |vendor|
+      vendor.check_stock(item)
+    end
+  end
+
+  def total_items
+    @vendors.flat_map { |vendor| vendor.inventory.keys.uniq }
   end
 
   # def overstocked_items
